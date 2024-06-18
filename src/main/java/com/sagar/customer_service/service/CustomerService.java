@@ -1,6 +1,7 @@
 package com.sagar.customer_service.service;
 
 
+import com.sagar.customer_service.exception.NoDataFoundException;
 import com.sagar.customer_service.model.Customer;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface CustomerService {
 
     String deleteCustomer(Integer customerId);
 
-    Customer getCustomerFirstName(String firstName);
+    Customer getCustomerFirstName(String firstName) throws NoDataFoundException;
 
     Customer getCustomerLastName(String lastName);
 }

@@ -1,6 +1,7 @@
 package com.sagar.customer_service.controller;
 
 
+import com.sagar.customer_service.exception.NoDataFoundException;
 import com.sagar.customer_service.model.Customer;
 import com.sagar.customer_service.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class CustomerController {
     }
 
     @GetMapping("/getCustomers/firstName/{firstName}")
-    public ResponseEntity<Customer> getCustomersFirstName(@PathVariable String firstName){
+    public ResponseEntity<Customer> getCustomersFirstName(@PathVariable String firstName) throws NoDataFoundException {
         return ResponseEntity.ok(customerService.getCustomerFirstName(firstName));
     }
 

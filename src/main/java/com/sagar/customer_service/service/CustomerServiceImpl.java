@@ -1,9 +1,13 @@
 package com.sagar.customer_service.service;
 
+import com.sagar.customer_service.exception.NoDataFoundException;
 import com.sagar.customer_service.model.Customer;
+import com.sagar.customer_service.model.ProductOrder;
 import com.sagar.customer_service.repository.CustomerRepository;
+import com.sagar.customer_service.repository.ProductOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,13 +19,16 @@ public class CustomerServiceImpl implements CustomerService{
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    ProductOrderRepository productOrderRepository;
+
     @Override
-    public Customer getCustomerFirstName(String firstName) {
+    public Customer getCustomerFirstName(String firstName)throws NoDataFoundException {
         Optional<Customer> customer= customerRepository.findByFirstName(firstName);
         if(customer.isPresent()){
             return customer.get();
         }else {
-            throw new RuntimeException("Data is not found!");
+            throw new NoDataFoundException("Data is not found!");
         }
 
     }
@@ -37,8 +44,12 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public String saveCustomers(Customer customer) {
         customerRepository.save(customer);
+        //customer.setCustomerId(null);
+        productOrderRepository.save(ProductOrder.builder().customerId(customer.getCustomerId())
+                .orderName("test1").build());
         return "Customer deatils is added!";
     }
 

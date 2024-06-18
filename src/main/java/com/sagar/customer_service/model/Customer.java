@@ -14,15 +14,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Customer {
 
     @Id
     @GeneratedValue
-    @Column(name = "customer_id")
-    private Integer id;
+    private Integer customerId;
     private String firstName;
     private String lastName;
-    @Column(name = "full_address")
     private String address;
 
 
